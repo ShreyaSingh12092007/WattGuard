@@ -16,8 +16,8 @@ st.set_page_config(
 # -----------------------------
 # Load dataset and model
 # -----------------------------
-data_path = "/content/wattguard_dashboard/energy.csv.csv"
-model_path = "/content/wattguard_dashboard/model.pkl"
+data_path = "energy.csv.csv"
+model_path = "model.pkl"
 
 df = pd.read_csv(data_path)
 model = joblib.load(model_path)

@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import joblib
+from sklearn.ensemble import RandomForestRegressor
 
 # -----------------------------
 # Page settings
@@ -17,11 +17,34 @@ st.set_page_config(
 # Load dataset and model
 # -----------------------------
 data_path = "energy.csv.csv"
-model_path = "model.pkl"
 
 df = pd.read_csv(data_path)
-model = joblib.load(model_path)
 
+df["date"] = pd.to_datetime(df["date"])
+df["hour"] = df["date"].dt.hour
+
+features = [
+    "hour",
+    "lights",
+    "T1", "RH_1",
+    "T2", "RH_2",
+    "T3", "RH_3",
+    "T_out",
+    "Press_mm_hg",
+    "Windspeed",
+    "Visibility",
+    "Tdewpoint"
+]
+
+X = df[features]
+y = df["Appliances"]
+
+model = RandomForestRegressor(
+    n_estimators=10,
+    random_state=42,
+    n_jobs=-1
+)
+model.fit(X, y)
 df["date"] = pd.to_datetime(df["date"])
 df["hour"] = df["date"].dt.hour
 
